@@ -226,6 +226,9 @@ def clusters_factory(request):
 
     The configs used to create clusters are dumped to output_dir/clusters_configs/{test_name}.config
     """
+    clusters_factory_tmp_log = "/tmp/clusters-factory-log.txt"
+    with open(clusters_factory_tmp_log, "a") as outfile:
+        outfile.write("clusters_factory fixture invoked\n")
     factory = ClustersFactory(keep_logs_on_failure=request.config.getoption("keep_logs_on_cluster_failure"))
 
     def _cluster_factory(cluster_config):
@@ -241,8 +244,11 @@ def clusters_factory(request):
             config_file=cluster_config,
             ssh_key=request.config.getoption("key_path"),
         )
+        with open(clusters_factory_tmp_log, "a") as outfile:
+            outfile.write(f"generated cluster with name {cluster.name}\n")
         if not request.config.getoption("cluster"):
-            factory.create_cluster(cluster)
+        #     factory.create_cluster(cluster)
+            assert_that(1).is_equal_to(0)
         return cluster
 
     yield _cluster_factory

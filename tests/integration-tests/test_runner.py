@@ -308,7 +308,7 @@ def _get_pytest_args(args, regions, log_file, out_dir):
 
     if args.retry_on_failures:
         # Rerun tests on failures for one more time after 60 seconds delay
-        pytest_args.extend(["--reruns", "1", "--reruns-delay", "60"])
+        pytest_args.extend(["--reruns", "1", "--reruns-delay", "5"])
 
     if args.parallelism:
         pytest_args.extend(["-n", args.parallelism])
