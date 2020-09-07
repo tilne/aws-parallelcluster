@@ -836,13 +836,11 @@ CLUSTER_COMMON_PARAMS = [
     # Settings
     ("scaling_settings", {
         "type": SettingsCfnParam,
-        "default": "default",  # set a value to create always the internal structure for the scaling section
         "referred_section": SCALING,
         "update_policy": UpdatePolicy.UNSUPPORTED,
     }),
     ("vpc_settings", {
         "type": SettingsCfnParam,
-        "default": "default",  # set a value to create always the internal structure for the vpc section
         "referred_section": VPC,
         "update_policy": UpdatePolicy.UNSUPPORTED,
     }),
@@ -1041,3 +1039,14 @@ CLUSTER_HIT = {
 }
 
 # fmt: on
+
+# Sections not related to the cluster one
+GLOBAL_FILE_SECTIONS = [AWS, ALIASES, GLOBAL]
+
+# Sections nested into the cluster SIT one
+CLUSTER_SIT_NESTED_SECTIONS = [CW_LOG, DCV, EBS, EFS, FSX, RAID, SCALING, VPC]
+
+# Sections that must always be present in the PclusterConfig object.
+# An automatically value of "default" will be set as a label value
+# to always create the internal structure for the these sections.
+ALWAYS_PRESENT_SECTIONS = [SCALING, VPC]

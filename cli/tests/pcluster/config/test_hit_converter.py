@@ -43,7 +43,10 @@ def boto3_stubber_path():
                     "spot_price": 0.4,
                     "maintain_initial_size": True,
                     "initial_queue_size": 2,
-                }
+                    "ebs_settings": "ebs1,ebs2",
+                },
+                "ebs ebs1": {"shared_dir": "sharedebs", "volume_type": "gp2", "volume_size": 50},
+                "ebs ebs2": {"shared_dir": "sharedebs2", "volume_type": "io1", "volume_size": 35},
             },
             {
                 "cluster default": {
@@ -72,6 +75,8 @@ def boto3_stubber_path():
                     "gpus": 0,
                     "enable_efa": True,
                 },
+                "ebs ebs1": {"shared_dir": "sharedebs", "volume_type": "gp2", "volume_size": 50},
+                "ebs ebs2": {"shared_dir": "sharedebs2", "volume_type": "io1", "volume_size": 35},
             },
         ),
         (
