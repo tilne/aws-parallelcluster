@@ -9,6 +9,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 from assertpy import assert_that
 
 from pcluster_config import cli
@@ -36,7 +37,17 @@ def _convert_and_assert_file_content(mocker, test_datadir, tmpdir, cluster_templ
         argv += ["-t", cluster_template]
 
     mocker.patch("pcluster.config.cfn_param_types.get_availability_zone_of_subnet")
-    cli.main(argv)
+    mocker.patch("pcluster.config.cfn_param_types.get_supported_architectures_for_instance_type")
+    mocker.patch("pcluster.config.json_param_types.utils.get_instance_type")
+
+    original_default_region = os.environ.get("AWS_DEFAULT_REGION")
+    if original_default_region:
+        del os.environ["AWS_DEFAULT_REGION"]
+    try:
+        cli.main(argv)
+    finally:
+        if original_default_region:
+            os.environ["AWS_DEFAULT_REGION"] = original_default_region
 
     _assert_files_are_equal(output_file, test_datadir / "expected_output.ini")
 
