@@ -430,7 +430,7 @@ def test_url_validator(mocker, boto3_stubber, capsys):
                     "auto_import_policy": "NEW"
                 },
             },
-            1,
+            2,
             {"Bucket": "test"},
             "AutoImport is not supported for cross-region buckets.",
         ),
@@ -454,7 +454,8 @@ def test_auto_import_policy_validator(mocker, boto3_stubber, config, num_calls, 
         }
     }
     mocked_requests = []
-    mocked_requests.append(MockedBoto3Request(method="head_bucket", response=head_bucket_response, expected_params=bucket))
+    for _ in range(num_calls):
+        mocked_requests.append(MockedBoto3Request(method="head_bucket", response=head_bucket_response, expected_params=bucket))
     mocked_requests.append(MockedBoto3Request(method="get_bucket_location", response=get_bucket_location_response, expected_params=bucket))
 
     print("HERE " + str(mocked_requests))
