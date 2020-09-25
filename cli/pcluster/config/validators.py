@@ -770,7 +770,7 @@ def fsx_lustre_auto_import_validator(param_key, param_value, pcluster_config):
             fsx_section = pcluster_config.get_section("fsx")
             fsx_import_path = fsx_section.get_param_value("import_path")
             bucket = get_bucket_name_from_s3_url(fsx_import_path)
-            s3BucketRegion = boto3.client("s3").get_bucket_location(Bucket=bucket)["LocationConstraint"]
+            s3BucketRegion = boto3.client("s3").get_bucket_location(Bucket=bucket)["ResponseMetadata"]["LocationConstraint"]
             # Buckets in Region us-east-1 have a LocationConstraint of null
             if s3BucketRegion is None:
                 s3BucketRegion = "us-east-1"
