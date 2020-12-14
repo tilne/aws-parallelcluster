@@ -1,0 +1,10 @@
+{%- import 'common.jinja2' as common -%}
+---
+test-suites:
+  scaling:
+    test_mpi.py::test_mpi:
+      dimensions:
+        - regions: ["us-west-2"]
+          instances: ["c5.xlarge"]
+          oss: ["centos7"]
+          schedulers: ["slurm", "sge"]
